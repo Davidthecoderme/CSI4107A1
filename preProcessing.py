@@ -1,59 +1,70 @@
-import jsonlines
+import json
+import re
 import nltk
-import string
+# pip install nltk
+# nltk.download('stopwords')
+# nltk.download('punkt')
+
+# Make sure to have "pip install openpyxl" installed.
+
+from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 
-# Download necessary NLTK resources
-nltk.download('stopwords')
-nltk.download('wordnet')
+# For writing Excel files
+from openpyxl import Workbook
 
-# Initialize stopwords and lemmatizer
+INPUT_FILE = "./scifact/corpus.jsonl"
+OUTPUT_FILE = "output_tokens.xlsx"  # changed to .xlsx
+
+# 1. Initialize stop words and Porter stemmer
 stop_words = set(stopwords.words('english'))
-lemmatizer = WordNetLemmatizer()
+stemmer = PorterStemmer()
 
 def preprocess_text(text):
-    """Preprocess text: lowercase, remove punctuation, stopwords, and apply lemmatization."""
-    if not text:
-        return ""
+    """
+    1) Convert all to lowercase
+    2) Keep only alphabetical characters (remove punctuation and numbers)
+    3) Tokenize
+    4) Remove stop words
+    5) Extract word stems using the Porter Stemmer
+    """
+    text = text.lower()
+    tokens = re.findall(r"[a-z]+", text)
+    filtered_tokens = [t for t in tokens if t not in stop_words]
+    stemmed_tokens = [stemmer.stem(t) for t in filtered_tokens]
+    return stemmed_tokens
 
-    # Convert text to lowercase and remove punctuation
-    text = text.lower().translate(str.maketrans('', '', string.punctuation))
-    # Split text into words
-    tokens = text.split()
-    # Remove stopwords and lemmatize
-    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
-    return ' '.join(tokens)
+def main():
+    # Create a new Workbook
+    wb = Workbook()
+    ws = wb.active  # Get the active worksheet
+    ws.title = "Tokens"
 
-def process_corpus(input_file, output_file):
-    """Process the test corpus file and save the cleaned version."""
-    processed_data = []
+    # Write header row (optional)
+    ws.append(["_id", "tokens"])
 
-    with jsonlines.open(input_file) as reader:
-        for obj in reader:
-            # Check for missing fields and skip invalid entries
-            if "_id" not in obj or "title" not in obj or "text" not in obj:
-                print(f"❌ Skipping invalid entry: {obj}")
+    with open(INPUT_FILE, 'r', encoding='utf-8') as fin:
+        for line in fin:
+            line = line.strip()
+            if not line:
                 continue
+            doc = json.loads(line)
 
-            # Extract fields
-            doc_id = obj["_id"]
-            text = obj["title"] + " " + obj["text"]  # Combine title and text
+            doc_id = doc.get("_id", "")
+            text = doc.get("text", "")
+            tokens = preprocess_text(text)
 
-            # Preprocess the combined text
-            cleaned_text = preprocess_text(text)
-            processed_data.append({"doc_id": doc_id, "text": cleaned_text})
+            # Convert the list of tokens to a single string for Excel
+            tokens_str = " ".join(tokens)
 
-    # Save the processed data
-    with jsonlines.open(output_file, mode='w') as writer:
-        writer.write_all(processed_data)
+            # Append a new row: doc_id in the first column, tokens in the second
+            ws.append([doc_id, tokens_str])
 
-    print(f"✅ Preprocessing complete. Processed {len(processed_data)} documents. Output saved to {output_file}")
+    # Save the workbook
+    wb.save(OUTPUT_FILE)
+
+    # Print a confirmation message
+    print(f"Preprocessed data is saved to '{OUTPUT_FILE}'")
 
 if __name__ == "__main__":
-    # File paths for the test corpus
-    input_file = "test_corpus.jsonl"  # Input test file
-    output_file = "processed_test_corpus.jsonl"  # Output processed file
-
-    # Process the test corpus
-    process_corpus(input_file, output_file)
+    main()
