@@ -185,6 +185,15 @@ def main():
     # Build the inverted index for fast access during retrieval.
     print("Building inverted index...")
     inverted_index = build_inverted_index(corpus)
+
+     # ------------------------------------------------------------------------------
+    # Report: Write a sample of 100 tokens from the inverted index vocabulary to a file called sampleTokens.
+    # ------------------------------------------------------------------------------
+    sample_tokens = list(inverted_index.keys())[:100]
+    with open("sampleTokens.txt", "w", encoding="utf-8") as sample_file:
+        for token in sample_tokens:
+            sample_file.write(f"{token}\n")
+    print("Optional: Sample of 100 tokens written to file 'sampleTokens'.")
     
     # Calculate IDF across the entire corpus.
     print("Calculating IDF...")
