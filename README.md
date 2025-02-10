@@ -3,7 +3,7 @@
 
 ## Names and Student Numbers
 
-Bruno Kazadi Kazadi (300210848) <br>
+Bruno Kazadi (300210848) <br>
 Bernardo Caiado () <br>
 Jun Ning (300286811)
 
