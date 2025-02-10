@@ -85,6 +85,19 @@ These results can be evaluated against the relevance judgments using the trec_ev
 
 ## How to Run 
 
+1. Verify that Python is installed on your system. If not, download and install it from the Python official website.
+2. Download trec_eval Obtain the trec_eval tool from the TREC official website or from the references below 
+3. Extract the trec_eval Package The downloaded file is a .tar archive. Decompress it using a utility like tar (on Linux/macOS) or 7-Zip (on Windows).
+
+4. Compile trec_eval
+    - On POSIX systems:
+    `cd trec_eval-9.0.7 
+    make`
+    - On MinGW/GCC:
+    `gcc -o trec_eval trec_eval.c`
+5. the other option for using python to work on trec_eval is to have pip install pytrec_eval intsalled
+    - pip install pytrec_eval
+    - 
 ### **Install Dependencies**
 ```
 pip install ntlk
@@ -128,9 +141,15 @@ Retrieval & Ranking
 
 ## Vocabulary
 
-### How big was the vocabulary?
+The dataset's vocabulary consists of 31,605 unique tokens
 
-### Sample of 100 tokens from the vocabulary
+Below is a sample of the 100 most frequently occurring tokens from the vocabulary:
+'cell', 'result', 'study', 'increase', 'protein', 'suggest', 'factor', 'associate', 'gene', 'role', 'expression', 'human', 'control', 'disease', 'effect', 'function', 'patient', 'data', 'level', 'identify', 'mechanism', 'conclusion', 'induce', 'method', 'analysis', 'model', 'response', 'specific', 'demonstrate', 'type', 'activity', 'treatment', 'compare', 'target', 'development', 'signal', 'cancer', 'reduce', 'require', 'regulate', 'report', 'process', 'base', 'pathway', 'receptor', 'significantly', 'change', 'finding', 'indicate', 'involve', 'present', 'risk', 'cause', 'potential', 'remain', 'age', 'clinical', 'mice', 'activation', 'determine', 'reveal', 'system', 'complex', 'relate', 'group', 'evidence', 'population', 'develop', 'tissue', 'bind', 'measure', 'express', 'number', 'mediate', 'observe', 'year', 'form', 'dna', 'decrease', 'know', 'growth', 'vivo', 'dependent', 'background', 'review', 'outcome', 'tumor', 'objective', 'early', 'lead', 'regulation', 'investigate', 'test', 'activate', 'interaction', 'occur', 'cellular', 'molecular', 'design', 'major'.
+
+The extracted tokens are predominantly scientific and medical in nature, with a strong emphasis on neuroscience, diffusion MRI analysis, and brain development research. Words like "cell", "protein", and "gene" are commonly associated with biomedical studies, whereas terms such as "analysis", "model", and "response" suggest statistical or computational methodologies. Additionally, the absence of common stopwords (e.g., "the", "is", "and") indicates that effective preprocessing techniques were applied to refine the vocabulary. Furthermore, all tokens appear in lowercase, demonstrating that text normalization was implemented to maintain uniformity across the dataset.
+
+This structured vocabulary will be instrumental in analyzing key trends, identifying significant relationships, and drawing insights from the dataset, particularly within the domains of medical imaging, neuroscience, and computational biology.
+
 
 ### **First 10 Answers for First Two Queries**
 
