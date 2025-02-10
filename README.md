@@ -9,8 +9,8 @@ Jun Ning (300286811)
 
 
 ## Distribution of Work
-Bruno Kazadi Kazadi
-- Step3 :
+Bruno Kazadi
+- Step3 : Step 3 Retrieval and Ranking
 - 
 Bernardo Caiado
 - Stpe2 :
