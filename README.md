@@ -34,7 +34,8 @@ Tokenize and Clean Text (tokenize_and_remove_punctuations):
 Removes punctuation and digits from the input text, then lowercases and tokenizes it into words.
 Stopword Removal and Stemming (preprocess_text):
 Uses the NLTK stopwords list to filter out common English words. Also removes very short tokens (length ≤ 2) to reduce noise. Finally, applies the Porter Stemmer to normalize words (e.g., “running,” “runs,” become “run”).
-Reading Input Data
+
+### Reading Input Data 
 
 #### Reading the Corpus (read_corpus):
 Loads each document from the corpus.jsonl file, extracts the _id, title, and text fields, concatenates the textual content, and preprocesses it to produce a list of tokens. Stores these tokens in a dictionary keyed by doc_id.
